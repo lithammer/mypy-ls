@@ -1,0 +1,81 @@
+{
+  "name": "mypy-ls",
+  "version": "0.0.1",
+  "description": "Mypy Language Server",
+  "author": "Peter Lithammer",
+  "license": "MIT",
+  "keywords": [
+    "mypy",
+    "lsp"
+  ],
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lithammer/mypy-ls.git"
+  },
+  "activationEvents": [
+    "onLanguage:python",
+    "workspaceContains:.mypy.ini",
+    "workspaceContains:mypy.ini",
+    "workspaceContains:pyproject.toml",
+    "workspaceContains:requirements.txt",
+    "workspaceContains:setup.cfg",
+    "workspaceContains:setup.py"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build",
+    "test": "ava"
+  },
+  "dependencies": {
+    "vscode-languageserver": "^7.0.0",
+    "vscode-languageserver-textdocument": "^1.0.1",
+    "vscode-uri": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.38",
+    "ava": "^3.15.0",
+    "esbuild": "^0.11.10",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "contributes": {
+    "rootPatterns": [
+      {
+        "filetype": "python",
+        "patterns": [
+          "mypy.ini",
+          ".mypy.ini",
+          "setup.cfg",
+          "pyproject.toml",
+          "requirements.txt",
+          "setup.py"
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "mypy-ls configuration",
+      "properties": {
+        "mypy.daemonTimeout": {
+          "type": "number",
+          "default": 900,
+          "description": "Mypy server shutdown timeout (in seconds)"
+        }
+      }
+    }
+  }
+}
