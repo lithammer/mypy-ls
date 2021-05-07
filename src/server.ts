@@ -86,7 +86,13 @@ export class Server {
 
       const result: InitializeResult = {
         capabilities: {
-          textDocumentSync: TextDocumentSyncKind.None, // We're not inspecting the content anyway.
+          textDocumentSync: {
+            openClose: true,
+            change: TextDocumentSyncKind.None,
+            save: {
+              includeText: false,
+            },
+          },
           workspace: {
             workspaceFolders: {
               supported: true,
