@@ -1,4 +1,5 @@
 import { Diagnostic, DiagnosticSeverity } from "vscode-languageserver/node";
+import { isNotNull } from "./typeUtils";
 
 type Severity = "error" | "note";
 
@@ -34,3 +35,11 @@ export const parseLine = (line: string): Diagnostic | null => {
     code: code,
   };
 };
+
+/**
+ * Parse normalized Mypy output.
+ *
+ * @param stdout Normalized output from running `mypy`.
+ */
+export const parseOutput = (stdout: string): Diagnostic[] =>
+  stdout.trim().split("\n").map(parseLine).filter(isNotNull);

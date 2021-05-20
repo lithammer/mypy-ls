@@ -4,7 +4,6 @@ import {
   ConfigurationItem,
   Connection,
   createConnection,
-  Diagnostic,
   InitializeResult,
   TextDocuments,
   TextDocumentSyncKind,
@@ -12,10 +11,10 @@ import {
 } from "vscode-languageserver/node";
 import { createDeferred, Deferred } from "./deferred";
 import { findBinary } from "./mypy";
-import { parseLine } from "./parser";
+import { parseOutput } from "./parser";
 import { convertUriToPath } from "./pathUtils";
 import { spawnAsync } from "./process";
-import { isNotNull, isNumber } from "./typeUtils";
+import { isNumber } from "./typeUtils";
 import { WorkspaceMap } from "./workspaceMap";
 
 interface ServerSettings {
@@ -257,11 +256,7 @@ export class Server {
       }
     );
 
-    const diagnostics: Diagnostic[] = cmd.stdout
-      .trim()
-      .split("\n")
-      .map(parseLine)
-      .filter(isNotNull);
+    const diagnostics = parseOutput(cmd.stdout);
 
     this.connection.sendDiagnostics({ uri: documentUri, diagnostics });
   }
