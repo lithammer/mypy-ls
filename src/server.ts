@@ -154,7 +154,7 @@ export class Server {
   async getSettings(
     workspace: WorkspaceServiceInstance
   ): Promise<ServerSettings> {
-    const serverSettings: ServerSettings = { daemonTimeout: 900 };
+    const serverSettings: ServerSettings = { daemonTimeout: 300 };
 
     try {
       const mypySection = await this.getConfiguration(
